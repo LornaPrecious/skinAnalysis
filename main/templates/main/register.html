@@ -1,0 +1,145 @@
+{% extends 'main/base.html' %}
+{%load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+{% block pagecontent %}
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('/static/img/breadcrumbs-bg.jpg');">
+      <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+
+        <h2>Register</h2>
+        <ol>
+          <li><a href="index.html">Home</a></li>
+          <li>Register</li>
+        </ol>
+
+      </div>
+    </div><!-- End Breadcrumbs -->
+
+    <section class="sample-page">
+      <div class="container"  data-aos="fade-up" data-aos-delay="100">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 mx-auto bg-light p-5">  
+                <div class="position-relative d-flex flex-column">
+                    <form  method = 'POST' class="row g-4" action ="/register/" enctype="multipart/form-data">
+                                
+                    {% csrf_token %}
+                    
+                        <div class="col-md-4">
+                            <p class="text-start"> Name: </p>
+
+                        </div>
+                        <div class="col-md-4">
+                            <input required type="text" class="form-control" id="fname" name="fname" autocomplete="given-name" placeholder="First name">
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <input required type="text" class="form-control" id="lname" name="lname" autocomplete="family-name" placeholder="Last name">
+                        </div>
+
+                        <div class="col-md-4">
+                            <p class="text-start"> Username: </p>
+
+                        </div>
+
+                        <div class="col-md-8">
+                            <input required type="text" class="form-control" id="username" name="username" autocomplete="username">
+                        </div>
+
+                        <div class="col-md-4">
+                            <p class="text-start"> Phone number: </p>
+
+                        </div>
+                        <div class="col-md-8">
+                        
+                            <input required type="text" class="form-control" id="phonenumber" name="phonenumber" autocomplete="tel">
+                        </div>
+
+                        <div class="col-md-4">
+                            <p class="text-start"> Email address: </p>
+
+                        </div>
+                        <div class="col-md-8">                                            
+                            <input required type="email" class="form-control" id="email" name="email" autocomplete="email">
+                        </div>
+
+                
+                        <div class="col-md-4">
+                            <p class="text-start"> Gender: </p>
+
+                        </div>
+                        <!-- <div class="col-md-8">                                            
+                            <input required type="text" class="form-control" id="gender" name="gender">
+                        </div> -->
+                    
+                    
+                    <div class="col-md-8">
+                        
+                            <input type="radio" class="option-input" name="gender" id="gender" value="male">
+                            <label for="male" class="form-check-label">Male</label> 
+
+                            <input type="radio" class="option-input" id="gender" value="female" name="gender">
+                            <label for="female" class="form-check-label">Female</label> 
+
+                         </ul>
+                        </div>  
+
+                        <div class="col-md-4">
+                            <p class="text-start"> Password: </p>
+
+                        </div>
+
+                        <div class="col-md-8">
+                            <input required type="password" class="form-control" id="password" name="password" autocomplete="new-password">
+                        </div>
+
+                        <div class="col-md-4">
+                            <p class="text-start"> Confirm password: </p>
+
+                        </div>
+
+                        <div class="col-md-8">
+                            <input required type="password" class="form-control" id="pass2" name="pass2"  autocomplete="current-password">
+                        </div>
+
+                        
+                        <div class="col-md-4">
+                            <p class="text-start"> Please upload a profile picture: </p>
+
+                        </div>
+
+                        <div class="col-md-8">
+                            <input type="file" class="form-control" id="profile_picture" name="profile_picture">
+                        </div>
+
+                                                                                                         
+                        <div class="col-12 text-center my-4">
+                        <input type="submit" class="btn btn-outline-primary btn-lg1" value="Sign up!">
+                        </div>
+
+                        <p> You already have an account?<a href = '/login'> Login </a> </p>
+                    </form>
+
+           
+
+                     
+  
+                </div>
+            </div>
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  {% endblock %}
+
+</body>
+
+</html>

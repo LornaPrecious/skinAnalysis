@@ -1,0 +1,100 @@
+{% extends 'main/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+  {% block pagecontent %}
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/img/breadcrumbs-bg.jpg);">
+      <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+
+        <h2>About</h2>
+        <ol>
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li>About</li>
+        </ol>
+
+      </div>
+    </div><!-- End Breadcrumbs -->
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row">
+          <div class="col-lg-10 position-relative">
+            
+            <h2>Who are we?</h2>
+            <div class="our-story">
+              <p>Our skin analysis project leverages AI-powered technology to provide personalized skincare insights. By analyzing skin conditions through images and data, we offer
+                 tailored recommendations to help users achieve healthier skin. Our goal is to make advanced skincare accessible, accurate, and effective for everyone.</p>
+              <ul>
+                <li><span>MOTTO</span></li>
+                <li><i class="bi bi-check-circle"></i> <span>"SKIN ANALYSIS"</span></li>
+              </ul>
+
+            <form  method = 'POST' class="row g-4" action ="/analysis/" enctype="multipart/form-data">
+                                
+                {% csrf_token %}
+           
+            <div class="col-md-4">
+                <p class="text-start"> Please upload an image of the skin you want analysed: </p>
+            </div>
+            <div class="col-md-8">
+                <input type="file" class="form-control" id="condition_image" name="condition_image">
+            </div>
+            <div class="col-12 text-center my-4">
+              <input type="submit" class="btn btn-outline-primary btn-lg1" value="Submit!">
+              </div>
+
+            </form>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+    <!-- End About Section -->
+
+    <!--RECOMMENDATION IF IT IS BEING IMPLEMENTED-->
+    <section id="about" class="about">
+        <div class="container" data-aos="fade-up">
+  
+          <div class="row position-relative">
+  
+            <div class="col-lg-7 about-img">
+            {%if condition%}
+              <img style="height: 400px; width: 600px; padding: 50px;" src="{{condition.condition_imageURL}}" alt="Skin condition">
+            {% else %}
+              <p>No condition image uploaded.</p>
+            {% endif %}
+          </div>
+          <div class="col-lg-7">
+              <h2>RESULTS </h2>
+              <div class="our-story">
+                <p> The following are the analysis results.</p>
+                <ul>
+                  <li><span>{{condition.condition}}</span></li> 
+                </ul>
+          
+              </div>
+            </div>
+  
+          </div>
+  
+        </div>
+      </section>
+      <!-- End About Section -->
+  
+
+  </main><!-- End #main -->
+  {% endblock %}
+
+</body>
+</html>
+
