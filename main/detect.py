@@ -12,27 +12,39 @@ if not os.path.exists(MODEL_PATH):
 
 model = tf.keras.models.load_model(MODEL_PATH)
 
-# Image parameters (must match training)
-img_size = (128, 128)
-
-# Class labels (assuming same order as training)
-class_labels = ['acne', 'eczema', 'melasma', 'psoriasis', 'normal'] 
+#Getting class names
+path = "C:/Users/HP/Documents/Machine Learning/project/skinAnalysis/dataset/Dataset/train"
+class_names = sorted(os.listdir(path))
+#print('classes: ', class_names)
 
 def preprocess_image(image_path):
     """ Preprocesses the captured or uploaded image for model prediction """
-    image = cv2.imread(image_path)  
-    image = cv2.resize(image, img_size) 
-    image = image / 255.0  # Normalize
-    image = np.expand_dims(image, axis=0)  
-    return image
+    img = tf.keras.utils.load_img(
+    image_path, target_size=(192, 192)
+    )
+    img_array = tf.keras.utils.img_to_array(img)
+    img_array = tf.expand_dims(img_array, 0) # Create a batch
+    return img_array
 
 def predict_skin_condition(image_path):
     """ Predicts the skin condition from the given image """
     processed_image = preprocess_image(image_path)
     predictions = model.predict(processed_image)
-    predicted_class = np.argmax(predictions)  # Get highest probability class
-    predicted_label = class_labels[predicted_class]  # Get class label
-    return predicted_label
+    
+    # Apply softmax to get confidence scores
+    score = tf.nn.softmax(predictions[0]).numpy()
+    
+    # Get class with highest probability
+    predicted_class_index = np.argmax(score)
+    
+    predicted_class_name = class_names[predicted_class_index]
+
+    return predicted_class_name
+
+def upload_and_predict(image_path):
+        predicted_label = predict_skin_condition(image_path)
+
+        return predicted_label
 
 def capture_and_predict():
     """ Captures an image from the webcam and predicts the skin condition """
@@ -61,17 +73,5 @@ def capture_and_predict():
     video_capture.release()
     cv2.destroyAllWindows()
 
-def upload_and_predict(image_path):
-        predicted_label = predict_skin_condition(image_path)
-        
-        # Read image for display
-        image = cv2.imread(image_path)
-        cv2.putText(image, f"Prediction: {predicted_label}", (10, 50), 
-                  cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-        cv2.imshow("Uploaded Image Analysis", image)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
 
-        return predicted_label
-
-
+    

@@ -35,6 +35,7 @@ class Condition(models.Model):
     condition_id = models.AutoField(primary_key=True)
     condition = models.CharField(max_length=10, null=True, blank=True)
     condition_image = models.ImageField(null=True, blank=True)
+    #recommendation = models.CharField(null=True, blank=True, max_length=5000)
     def __str__(self):
         return str(self.condition_id)
     class Meta:

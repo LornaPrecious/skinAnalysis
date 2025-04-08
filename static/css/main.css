@@ -1096,7 +1096,7 @@ hero-carousel
 .alt-services .img-bg {
   background-size: cover;
   background-position: center center;
-  min-height: 400px;
+  min-height: 300px;
 }
 
 .alt-services h3 {
@@ -1248,8 +1248,9 @@ hero-carousel
 }
 
 .about .about-img {
-  min-height: 600px;
-  background-size: cover;
+  max-height: 400px;
+  max-width: 400px;
+  background-size: contain;
   background-position: center;
 }
 
@@ -2560,7 +2561,7 @@ hero-carousel
 --------------------------------------------------------------*/
 .footer {
   color: #fff;
-  background: url("../img/footer-bg.jpg") top center no-repeat;
+  background: url("/static/img/footer-bg.png") top center no-repeat;
   background-size: cover;
   font-size: 14px;
   padding: 80px 0 60px 0;

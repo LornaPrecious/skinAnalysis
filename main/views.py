@@ -1,15 +1,12 @@
-import os
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from main.models import ModelUser, Condition
 from django.contrib import messages
 from main.detect import upload_and_predict
+#from main.ml.inference import get_recommendation
 from skin_condition_analysis import settings
-import tensorflow as tf
 import os
-import cv2
-import numpy as np
 
 def index(request):
     profile = ModelUser.objects.get(user=request.user)
@@ -79,39 +76,6 @@ def custom_login(request):
     return render(request, "main/login.html")
 
 
-#**************************************************************
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  
-MODEL_PATH = os.path.join(BASE_DIR, "skin_classifier_model.keras")  
-
-if not os.path.exists(MODEL_PATH):
-    raise FileNotFoundError(f"Model file not found at: {MODEL_PATH}")
-
-model = tf.keras.models.load_model(MODEL_PATH)
-
-#Image parameters
-img_size = (128, 128)
-
-# Class labels (assuming same order as training)
-class_labels = ['acne', 'eczema', 'melasma', 'normal', 'psoriasis'] 
-
-def preprocess_image(image_path):
-    """ Preprocesses the captured or uploaded image for model prediction """
-    image = cv2.imread(image_path)  
-    image = cv2.resize(image, img_size) 
-    image = image / 255.0  # Normalize
-    image = np.expand_dims(image, axis=0)  
-    return image
-
-def predict_skin_condition(image_path):
-    """ Predicts the skin condition from the given image """
-    processed_image = preprocess_image(image_path)
-    predictions = model.predict(processed_image)
-    predicted_class = np.argmax(predictions)  # Get highest probability class
-    predicted_label = class_labels[predicted_class]  # Get class label
-    return predicted_label
-
-
 def analysis(request):
     if request.method =="POST":
         condition_image = request.FILES.get('condition_image') 
@@ -125,8 +89,12 @@ def analysis(request):
                 for chunk in condition_image.chunks():
                     destination.write(chunk)
 
-            predicted_label = predict_skin_condition(file_path)
+            predicted_label = upload_and_predict(file_path)
             user = request.user
+
+            #recommendation = gpt_recommendation(predicted_label)
+            #recommendation = get_recommendation(predicted_label)
+            #recommendation=recommendation
 
         condition=Condition(user = user, condition_image = condition_image, condition = predicted_label)                                
         condition.save()    
@@ -146,8 +114,7 @@ def analysis(request):
 
     context = {
         'condition': condition,
-        'profile': profile
-        
+        'profile': profile,
     }
 
     return render(request, "main/analysis.html", context)

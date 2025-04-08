@@ -8,7 +8,7 @@
   <main id="main">
 
     <!-- ======= Breadcrumbs ======= -->
-    <div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/img/breadcrumbs-bg.jpg);">
+    <div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/img/badtogood.png);">
       <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
 
         <h2>About</h2>
@@ -27,21 +27,17 @@
         <div class="row">
           <div class="col-lg-10 position-relative">
             
-            <h2>Who are we?</h2>
+            <h2>Image analysis</h2>
             <div class="our-story">
-              <p>Our skin analysis project leverages AI-powered technology to provide personalized skincare insights. By analyzing skin conditions through images and data, we offer
-                 tailored recommendations to help users achieve healthier skin. Our goal is to make advanced skincare accessible, accurate, and effective for everyone.</p>
-              <ul>
-                <li><span>MOTTO</span></li>
-                <li><i class="bi bi-check-circle"></i> <span>"SKIN ANALYSIS"</span></li>
-              </ul>
+              <p>Please upload an image below. Our AI-powered application will then analyze any blemishes on the skin uploaded and offer a 'diagnosis'.</p>
+              
 
             <form  method = 'POST' class="row g-4" action ="/analysis/" enctype="multipart/form-data">
                                 
                 {% csrf_token %}
            
             <div class="col-md-4">
-                <p class="text-start"> Please upload an image of the skin you want analysed: </p>
+                <p class="text-start"> Upload an image: </p>
             </div>
             <div class="col-md-8">
                 <input type="file" class="form-control" id="condition_image" name="condition_image">
@@ -71,22 +67,22 @@
             {%if condition%}
               <img style="height: 400px; width: 600px; padding: 50px;" src="{{condition.condition_imageURL}}" alt="Skin condition">
             {% else %}
-              <p>No condition image uploaded.</p>
+              <p>No image uploaded.</p>
             {% endif %}
           </div>
           <div class="col-lg-7">
               <h2>RESULTS </h2>
               <div class="our-story">
-                <p> The following are the analysis results.</p>
+                <p> The following are the analysis results and recommendations.</p>
                 <ul>
                   <li><span>{{condition.condition}}</span></li> 
+                
                 </ul>
           
               </div>
             </div>
   
           </div>
-  
         </div>
       </section>
       <!-- End About Section -->
